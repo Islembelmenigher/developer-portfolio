@@ -101,7 +101,7 @@ npm run dev
 Open the local URL shown by Vite (usually `http://localhost:5173`).
 
 ## Admin Access
-
+- you can type admin as an end point in your Url to be redirected to the signup/login page
 - Admin page route: `/auth`
 - After sign in, you are redirected to `/admin`
 - Admin can:
