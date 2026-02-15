@@ -113,7 +113,7 @@ Open the local URL shown by Vite (usually `http://localhost:5173`).
 ## Important Security Notes
 
 - Do not commit real `.env` values.
-- The signup key in `src/pages/Auth.tsx` is currently hardcoded for gated signup. Replace it with your own value before production.
+- The signup key in `src/pages/Auth.tsx` is currently hardcoded for gated signup. Replace it with your own value before production, it exist in line 8 in that file as follow :const SIGNUP_SECRET_KEY = "Replace the key word here";
 - Review RLS policies in Supabase and tighten them based on your needs.
 
 ## Available Scripts
