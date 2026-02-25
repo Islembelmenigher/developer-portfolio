@@ -1,39 +1,26 @@
-import { useState } from "react";
-import { Mail, MapPin, Phone, Send } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
+import { ArrowUpRight, Github, Linkedin, Mail, MapPin, Phone } from "lucide-react";
 
 export function Contact() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    try {
-      const { error } = await supabase.functions.invoke("send-contact-email", {
-        body: formData,
-      });
-
-      if (error) throw error;
-      
-      toast.success("Message sent successfully! I'll get back to you soon.");
-      setFormData({ name: "", email: "", message: "" });
-    } catch (error: any) {
-      console.error("Error sending message:", error);
-      toast.error("Failed to send message. Please try again.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  const socialLinks = [
+    {
+      label: "LinkedIn",
+      description: "Connect professionally",
+      href: "https://www.linkedin.com/in/islem-belmenigher-148109253/",
+      icon: Linkedin,
+    },
+    {
+      label: "Email",
+      description: "Fastest way to contact me",
+      href: "mailto:islembelmenigher@gmail.com",
+      icon: Mail,
+    },
+    {
+      label: "GitHub",
+      description: "Check out my projects",
+      href: "https://github.com/Islembelmenigher",
+      icon: Github,
+    },
+  ];
 
   return (
     <section id="contact" className="section-padding relative">
@@ -49,42 +36,40 @@ export function Contact() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-12">
+        <div className="grid lg:grid-cols-[1fr_1.4fr] gap-12 items-start">
           {/* Contact Info */}
           <div>
             <h3 className="text-xl font-semibold mb-6">Get in touch</h3>
-            <div className="space-y-6">
-              <a
-                href="mailto:belmenigherislem@gmail.com"
-                className="flex items-center gap-4 text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <div className="w-12 h-12 rounded-lg bg-secondary flex items-center justify-center">
-                  <Mail className="w-5 h-5 text-primary" />
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Email</p>
-                  <p className="font-medium text-foreground">belmenigherislem@gmail.com</p>
-                </div>
-              </a>
+            <div className="space-y-4">
               <a
                 href="tel:+48516304549"
-                className="flex items-center gap-4 text-muted-foreground hover:text-foreground transition-colors"
+                className="group relative block overflow-hidden rounded-2xl border border-border/60 bg-card/70 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-primary/60 hover:shadow-[0_15px_40px_-20px_hsl(var(--primary)/0.6)]"
               >
-                <div className="w-12 h-12 rounded-lg bg-secondary flex items-center justify-center">
-                  <Phone className="w-5 h-5 text-primary" />
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Phone</p>
-                  <p className="font-medium text-foreground">+48 516 304 549</p>
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-primary/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                <div className="relative flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-4">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary ring-1 ring-primary/20 transition-colors duration-300 group-hover:bg-primary group-hover:text-primary-foreground">
+                      <Phone className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground">Phone</p>
+                      <p className="font-medium text-foreground">+48 516 304 549</p>
+                    </div>
+                  </div>
+                  <ArrowUpRight className="h-5 w-5 text-muted-foreground transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-foreground" />
                 </div>
               </a>
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-lg bg-secondary flex items-center justify-center">
-                  <MapPin className="w-5 h-5 text-primary" />
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Location</p>
-                  <p className="font-medium text-foreground">Poland, Krakow</p>
+
+              <div className="group relative block overflow-hidden rounded-2xl border border-border/60 bg-card/70 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-primary/60 hover:shadow-[0_15px_40px_-20px_hsl(var(--primary)/0.6)]">
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-primary/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                <div className="relative flex items-center gap-4">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary ring-1 ring-primary/20 transition-colors duration-300 group-hover:bg-primary group-hover:text-primary-foreground">
+                    <MapPin className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Location</p>
+                    <p className="font-medium text-foreground">Poland, Krakow</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -97,63 +82,34 @@ export function Contact() {
             </div>
           </div>
 
-          {/* Contact Form */}
-          <form onSubmit={handleSubmit} className="glass-card p-6 md:p-8">
-            <div className="space-y-6">
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium mb-2">
-                  Name
-                </label>
-                <Input
-                  id="name"
-                  type="text"
-                  placeholder="Your name"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  required
-                  className="bg-secondary/50 border-border"
-                />
-              </div>
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium mb-2">
-                  Email
-                </label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="your@email.com"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  required
-                  className="bg-secondary/50 border-border"
-                />
-              </div>
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium mb-2">
-                  Message
-                </label>
-                <Textarea
-                  id="message"
-                  placeholder="Tell me about the role or opportunity..."
-                  rows={5}
-                  value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  required
-                  className="bg-secondary/50 border-border resize-none"
-                />
-              </div>
-              <Button type="submit" className="w-full" disabled={isSubmitting}>
-                {isSubmitting ? (
-                  "Sending..."
-                ) : (
-                  <>
-                    <Send className="mr-2 h-4 w-4" />
-                    Send Message
-                  </>
-                )}
-              </Button>
-            </div>
-          </form>
+          <div className="space-y-4">
+            {socialLinks.map((item) => {
+              const Icon = item.icon;
+              return (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  target={item.href.startsWith("http") ? "_blank" : undefined}
+                  rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                  className="group relative block overflow-hidden rounded-2xl border border-border/60 bg-card/70 p-5 md:p-6 transition-all duration-300 hover:-translate-y-1 hover:border-primary/60 hover:shadow-[0_15px_40px_-20px_hsl(var(--primary)/0.6)]"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-primary/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                  <div className="relative flex items-center justify-between gap-4">
+                    <div className="flex items-center gap-4">
+                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary ring-1 ring-primary/20 transition-colors duration-300 group-hover:bg-primary group-hover:text-primary-foreground">
+                        <Icon className="h-6 w-6" />
+                      </div>
+                      <div>
+                        <p className="text-base font-semibold">{item.label}</p>
+                        <p className="text-sm text-muted-foreground">{item.description}</p>
+                      </div>
+                    </div>
+                    <ArrowUpRight className="h-5 w-5 text-muted-foreground transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-foreground" />
+                  </div>
+                </a>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>
