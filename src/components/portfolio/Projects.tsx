@@ -74,7 +74,7 @@ export function Projects() {
   const otherProjects = displayProjects.filter((p) => !p.featured);
 
   return (
-    <section id="projects" className="section-padding relative">
+    <section id="projects" className="section-padding relative bg-secondary/20">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
@@ -98,7 +98,7 @@ export function Projects() {
             >
               {/* Project Image */}
               <div className={`${index % 2 === 1 ? "md:order-2" : ""}`}>
-                <div className="group relative aspect-video rounded-xl overflow-hidden glass-card p-1">
+                <div className="group relative aspect-video overflow-hidden rounded-2xl border border-primary/30 bg-gradient-to-b from-primary/10 via-card/90 to-card/75 p-1 shadow-[0_12px_30px_-18px_hsl(var(--primary)/0.8)]">
                   {project.image_url ? (
                     <img
                       src={project.image_url}
@@ -106,12 +106,12 @@ export function Projects() {
                       className="w-full h-full object-cover rounded-lg transition-all duration-700 ease-out group-hover:scale-110 group-hover:brightness-90"
                     />
                   ) : (
-                    <div className="w-full h-full rounded-lg bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center transition-all duration-700 ease-out group-hover:brightness-90">
-                      <Folder className="w-16 h-16 text-primary/30" />
+                    <div className="w-full h-full rounded-xl bg-gradient-to-br from-primary/25 to-accent/25 flex items-center justify-center transition-all duration-700 ease-out group-hover:brightness-90">
+                      <Folder className="w-16 h-16 text-primary/70" />
                     </div>
                   )}
 
-                  <div className="pointer-events-none absolute inset-1 rounded-lg border border-white/20 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                  <div className="pointer-events-none absolute inset-1 rounded-xl border border-primary/35 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                   <div className="pointer-events-none absolute inset-1 rounded-lg bg-gradient-to-t from-background/65 via-background/10 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                   <div className="pointer-events-none absolute -inset-8 rounded-full bg-primary/20 blur-3xl opacity-0 transition-all duration-700 group-hover:opacity-60 group-hover:scale-110" />
 
@@ -127,7 +127,7 @@ export function Projects() {
               <div className={`${index % 2 === 1 ? "md:order-1 md:text-right" : ""}`}>
                 <span className="text-primary font-mono text-sm">Featured Project</span>
                 <h3 className="mt-2 text-2xl font-bold">{project.title}</h3>
-                <div className="mt-4 glass-card p-6">
+                <div className="mt-4 rounded-2xl border border-primary/25 bg-gradient-to-b from-primary/10 via-card/85 to-card/70 p-6">
                   <p className="text-muted-foreground">{project.description}</p>
                 </div>
                 <div className={`mt-4 flex flex-wrap gap-2 ${index % 2 === 1 ? "md:justify-end" : ""}`}>
@@ -143,7 +143,7 @@ export function Projects() {
                       href={project.github_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-foreground transition-colors"
+                      className="text-primary/70 hover:text-primary transition-colors"
                       aria-label="View source code"
                     >
                       <Github size={22} />
@@ -154,7 +154,7 @@ export function Projects() {
                       href={project.live_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-foreground transition-colors"
+                      className="text-primary/70 hover:text-primary transition-colors"
                       aria-label="View live site"
                     >
                       <ExternalLink size={22} />
@@ -174,17 +174,17 @@ export function Projects() {
               {otherProjects.map((project) => (
                 <div
                   key={project.id}
-                  className="glass-card-hover p-6 flex flex-col"
+                  className="flex flex-col rounded-2xl border border-primary/25 bg-gradient-to-b from-primary/10 via-card/85 to-card/70 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-primary/45 hover:shadow-[0_15px_40px_-20px_hsl(var(--primary)/0.75)]"
                 >
                   <div className="flex justify-between items-start mb-4">
-                    <Folder className="w-10 h-10 text-primary" />
+                    <Folder className="w-10 h-10 text-primary drop-shadow-[0_0_12px_hsl(var(--primary)/0.5)]" />
                     <div className="flex gap-3">
                       {project.github_url && (
                         <a
                           href={project.github_url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-muted-foreground hover:text-foreground transition-colors"
+                          className="text-primary/70 hover:text-primary transition-colors"
                           aria-label="View source code"
                         >
                           <Github size={20} />
@@ -195,7 +195,7 @@ export function Projects() {
                           href={project.live_url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-muted-foreground hover:text-foreground transition-colors"
+                          className="text-primary/70 hover:text-primary transition-colors"
                           aria-label="View live site"
                         >
                           <ExternalLink size={20} />
@@ -207,7 +207,7 @@ export function Projects() {
                   <p className="text-muted-foreground text-sm flex-grow">{project.description}</p>
                   <div className="mt-4 flex flex-wrap gap-2">
                     {project.tech_stack.slice(0, 4).map((tech) => (
-                      <span key={tech} className="text-xs text-muted-foreground font-mono">
+                      <span key={tech} className="text-xs text-foreground/80 font-mono">
                         {tech}
                       </span>
                     ))}

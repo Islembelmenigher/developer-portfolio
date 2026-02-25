@@ -74,10 +74,16 @@ export function Contact() {
               </div>
             </div>
 
-            {/* Decorative */}
-            <div className="mt-12 p-6 glass-card">
-              <p className="text-sm text-muted-foreground">
-                Open to React developer opportunities and technical collaborations.
+            {/* Availability */}
+            <div className="mt-8 rounded-2xl border border-border/60 bg-card/70 p-6">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary/90">
+                Availability
+              </p>
+              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+                <strong className="font-semibold text-foreground">Currently open</strong> to{" "}
+                <strong className="font-semibold text-foreground">React frontend roles</strong>,{" "}
+                <strong className="font-semibold text-foreground">freelance projects</strong>, and{" "}
+                <strong className="font-semibold text-foreground">technical collaborations</strong>.
               </p>
             </div>
           </div>
