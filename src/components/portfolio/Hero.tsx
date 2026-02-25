@@ -24,9 +24,14 @@ export function Hero() {
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Main Heading */}
         <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight animate-fade-up opacity-0" style={{ animationDelay: "0.1s" }}>
-          Hi, I'm a{" "}
-          <span className="gradient-text">React Developer</span>
+          Hi, I&apos;m Islem Belmenigher
         </h1>
+        <h2
+          className="mt-3 text-2xl sm:text-3xl md:text-5xl font-semibold tracking-tight text-primary animate-fade-up opacity-0"
+          style={{ animationDelay: "0.2s" }}
+        >
+          React Developer, Frontend Engineer
+        </h2>
 
         {/* Subtitle */}
         <p className="mt-6 text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto animate-fade-up opacity-0" style={{ animationDelay: "0.3s" }}>
