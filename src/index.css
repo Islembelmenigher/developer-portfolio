@@ -1,8 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
 
 @layer base {
   :root {
@@ -194,6 +195,10 @@
     animation: float 6s ease-in-out infinite;
   }
 
+  .animate-bubble-drift {
+    animation: bubble-drift 8s ease-in-out infinite;
+  }
+
   .animate-pulse-slow {
     animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
@@ -237,6 +242,13 @@
 @keyframes float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-20px); }
+}
+
+@keyframes bubble-drift {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  25% { transform: translate3d(var(--bubble-drift-x), var(--bubble-drift-y-negative), 0); }
+  50% { transform: translate3d(var(--bubble-drift-x-negative), var(--bubble-drift-y), 0); }
+  75% { transform: translate3d(var(--bubble-drift-x), var(--bubble-drift-y), 0); }
 }
 
 @keyframes gradient-shift {

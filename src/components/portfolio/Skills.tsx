@@ -13,24 +13,7 @@ import {
   Wind,
   Wrench,
 } from "lucide-react";
-
-// Default skills if database is empty
-const defaultSkills = [
-  { id: "1", name: "React", category: "Frontend", proficiency: 95 },
-  { id: "2", name: "TypeScript", category: "Languages", proficiency: 90 },
-  { id: "3", name: "Node.js", category: "Backend", proficiency: 88 },
-  { id: "4", name: "Next.js", category: "Frontend", proficiency: 85 },
-  { id: "5", name: "PostgreSQL", category: "Database", proficiency: 82 },
-  { id: "6", name: "Tailwind CSS", category: "Frontend", proficiency: 95 },
-  { id: "7", name: "GraphQL", category: "Backend", proficiency: 78 },
-  { id: "8", name: "Docker", category: "DevOps", proficiency: 75 },
-  { id: "9", name: "AWS", category: "Cloud", proficiency: 80 },
-  { id: "10", name: "Python", category: "Languages", proficiency: 72 },
-  { id: "11", name: "MongoDB", category: "Database", proficiency: 80 },
-  { id: "12", name: "Git", category: "Tools", proficiency: 92 },
-  { id: "13", name: "GitHub", category: "Tools", proficiency: 90 },
-  { id: "14", name: "JavaScript", category: "Languages", proficiency: 90 },
-];
+import { defaultSkills } from "@/lib/defaultSkills";
 
 export function Skills() {
   const { data: skills } = useSkills();

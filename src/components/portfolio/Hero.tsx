@@ -30,7 +30,7 @@ export function Hero() {
           className="mt-3 text-2xl sm:text-3xl md:text-5xl font-semibold tracking-tight text-primary animate-fade-up opacity-0"
           style={{ animationDelay: "0.2s" }}
         >
-          React Developer, Frontend Engineer
+          Fullstack Developer
         </h2>
 
         {/* Subtitle */}

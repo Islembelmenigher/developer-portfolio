@@ -32,7 +32,7 @@ export function Contact() {
             Let's connect
           </h2>
           <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
-            If you have a React role, collaboration idea, or feedback, feel free to send a message.
+            If you have a Fullstack, React, Frontend, Freelancing or collaboration idea feel free to send me a message.
           </p>
         </div>
 
@@ -79,11 +79,8 @@ export function Contact() {
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary/90">
                 Availability
               </p>
-              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                <strong className="font-semibold text-foreground">Currently open</strong> to{" "}
-                <strong className="font-semibold text-foreground">React frontend roles</strong>,{" "}
-                <strong className="font-semibold text-foreground">freelance projects</strong>, and{" "}
-                <strong className="font-semibold text-foreground">technical collaborations</strong>.
+              <p className="mt-2 text-sm text-white leading-relaxed">
+                Available for remote/hybrid jobs and freelance projects.
               </p>
             </div>
           </div>

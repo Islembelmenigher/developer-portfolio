@@ -1,6 +1,8 @@
 import { Code2, Coffee, Lightbulb, Rocket } from "lucide-react";
-import { useSiteSettings } from "@/hooks/usePortfolioData";
-import type { CSSProperties } from "react";
+import { useSiteSettings, useSkills } from "@/hooks/usePortfolioData";
+import { useEffect, useRef, useState } from "react";
+import type { CSSProperties, PointerEvent } from "react";
+import { defaultSkills } from "@/lib/defaultSkills";
 
 const highlights = [
   { icon: Code2, label: "Clean Code", description: "Writing maintainable, scalable solutions" },
@@ -86,55 +88,109 @@ function DockerLogo() {
 
 export function About() {
   const { data: settings } = useSiteSettings();
+  const { data: skills } = useSkills();
+  const visualRef = useRef<HTMLDivElement>(null);
+  const [boxSize, setBoxSize] = useState({ width: 0, height: 0 });
+  const [pointerPosition, setPointerPosition] = useState<{ x: number; y: number } | null>(null);
+  const displaySkills = skills?.length ? skills : defaultSkills;
+
+  useEffect(() => {
+    const visual = visualRef.current;
+    if (!visual) return;
+
+    const resizeObserver = new ResizeObserver(([entry]) => {
+      setBoxSize({ width: entry.contentRect.width, height: entry.contentRect.height });
+    });
+    resizeObserver.observe(visual);
+
+    return () => resizeObserver.disconnect();
+  }, []);
+
+  const bubblePositions = [
+    { left: 30, top: 16 },
+    { left: 70, top: 27 },
+    { left: 34, top: 42 },
+    { left: 66, top: 53 },
+    { left: 30, top: 69 },
+    { left: 70, top: 81 },
+    { left: 36, top: 28 },
+    { left: 64, top: 39 },
+    { left: 32, top: 55 },
+    { left: 68, top: 66 },
+    { left: 34, top: 82 },
+    { left: 66, top: 91 },
+    { left: 30, top: 35 },
+    { left: 70, top: 47 },
+  ];
+  const skillLogos: Record<string, JSX.Element> = {
+    React: <ReactLogo />,
+    "Tailwind CSS": <TailwindLogo />,
+    "Next.js": <NextLogo />,
+    "Node.js": <NodeLogo />,
+    TypeScript: <TypeScriptLogo />,
+    Git: <GitLogo />,
+    Docker: <DockerLogo />,
+  };
   const floatingLogos: Array<{
     name: string;
     logo: JSX.Element;
-    className: string;
+    position: { left: number; top: number };
     style: CSSProperties;
-  }> = [
-    {
-      name: "React",
-      logo: <ReactLogo />,
-      className: "left-[10%] top-[12%] text-sky-700 dark:text-sky-300 bg-white/85 dark:bg-sky-500/20 border-sky-500/55 dark:border-sky-300/40 animate-float shadow-lg",
-      style: { animationDuration: "7.5s", animationDelay: "0.3s" },
-    },
-    {
-      name: "Tailwind",
-      logo: <TailwindLogo />,
-      className: "right-[10%] top-[14%] text-cyan-700 dark:text-cyan-300 bg-white/85 dark:bg-cyan-500/20 border-cyan-500/55 dark:border-cyan-300/40 animate-drift-reverse shadow-lg",
-      style: { animationDuration: "10s", animationDelay: "0.2s" },
-    },
-    {
-      name: "Next.js",
-      logo: <NextLogo />,
-      className: "left-[16%] bottom-[18%] text-slate-800 dark:text-slate-100 bg-white/90 dark:bg-slate-500/20 border-slate-600/55 dark:border-slate-200/40 animate-drift-slow shadow-lg",
-      style: { animationDuration: "11s", animationDelay: "1.1s" },
-    },
-    {
-      name: "Node.js",
-      logo: <NodeLogo />,
-      className: "right-[16%] bottom-[16%] text-emerald-700 dark:text-emerald-300 bg-white/85 dark:bg-emerald-500/20 border-emerald-500/55 dark:border-emerald-300/40 animate-float shadow-lg",
-      style: { animationDuration: "8.2s", animationDelay: "1.8s" },
-    },
-    {
-      name: "TypeScript",
-      logo: <TypeScriptLogo />,
-      className: "left-[44%] top-[22%] text-blue-700 dark:text-blue-300 bg-white/85 dark:bg-blue-500/20 border-blue-500/55 dark:border-blue-300/40 animate-drift-slow shadow-lg",
-      style: { animationDuration: "9.5s", animationDelay: "0.7s" },
-    },
-    {
-      name: "Git",
-      logo: <GitLogo />,
-      className: "right-[34%] bottom-[28%] text-orange-700 dark:text-orange-300 bg-white/85 dark:bg-orange-500/20 border-orange-500/55 dark:border-orange-300/40 animate-drift-reverse shadow-lg",
-      style: { animationDuration: "10.5s", animationDelay: "1.4s" },
-    },
-    {
-      name: "Docker",
-      logo: <DockerLogo />,
-      className: "left-[42%] bottom-[8%] text-cyan-700 dark:text-cyan-300 bg-white/85 dark:bg-cyan-500/20 border-cyan-500/55 dark:border-cyan-300/40 animate-float shadow-lg",
-      style: { animationDuration: "9.2s", animationDelay: "0.9s" },
-    },
-  ];
+  }> = displaySkills.map((skill, index) => {
+    const position = bubblePositions[index % bubblePositions.length];
+    const animationSeed = skill.name.split("").reduce(
+      (seed, character) => (seed * 31 + character.charCodeAt(0)) >>> 0,
+      7,
+    );
+
+    return {
+      name: skill.name,
+      logo: skillLogos[skill.name] ?? <Code2 className="h-5 w-5" />,
+      position,
+      style: {
+        left: `${position.left}%`,
+        top: `${position.top}%`,
+        translate: "-50% -50%",
+        animationDuration: `${7 + (animationSeed % 8)}s`,
+        animationDelay: `-${(animationSeed % 60) / 10}s`,
+      },
+    };
+  });
+
+  const getBubbleStyle = (item: (typeof floatingLogos)[number]): CSSProperties => {
+    const centerX = (item.position.left / 100) * boxSize.width;
+    const centerY = (item.position.top / 100) * boxSize.height;
+    const deltaX = centerX - (pointerPosition?.x ?? centerX);
+    const deltaY = centerY - (pointerPosition?.y ?? centerY);
+    const distance = Math.hypot(deltaX, deltaY);
+    const strength = distance < 140 ? (1 - distance / 140) * 28 : 0;
+    const halfWidth = (54 + item.name.length * 7) / 2;
+    const horizontalRoom = Math.max(0, Math.min(centerX - halfWidth, boxSize.width - centerX - halfWidth));
+    const verticalRoom = Math.max(0, Math.min(centerY - 18, boxSize.height - centerY - 18));
+    const driftX = Math.min(44, horizontalRoom * 0.65);
+    const driftY = Math.min(44, verticalRoom * 0.65);
+    const repelRoomX = horizontalRoom - driftX;
+    const repelRoomY = verticalRoom - driftY;
+    const repelX = Math.max(-repelRoomX, Math.min(repelRoomX, distance ? (deltaX / distance) * strength : 0));
+    const repelY = Math.max(-repelRoomY, Math.min(repelRoomY, distance ? (deltaY / distance) * strength : -strength));
+
+    return {
+      ...item.style,
+      translate: `calc(-50% + ${repelX}px) calc(-50% + ${repelY}px)`,
+      "--bubble-drift-x": `${driftX}px`,
+      "--bubble-drift-x-negative": `${-driftX}px`,
+      "--bubble-drift-y": `${driftY}px`,
+      "--bubble-drift-y-negative": `${-driftY}px`,
+    } as CSSProperties;
+  };
+
+  const handlePointerMove = (event: PointerEvent<HTMLDivElement>) => {
+    const bounds = event.currentTarget.getBoundingClientRect();
+    setPointerPosition({
+      x: event.clientX - bounds.left,
+      y: event.clientY - bounds.top,
+    });
+  };
 
   return (
     <section id="about" className="section-padding relative bg-secondary/20">
@@ -151,13 +207,25 @@ export function About() {
           {/* Image/Visual Side */}
           <div className="relative">
             <div className="group relative aspect-square overflow-hidden rounded-2xl border border-primary/30 bg-gradient-to-b from-primary/15 via-card/90 to-card/75 p-1 shadow-[0_12px_30px_-18px_hsl(var(--primary)/0.8)]">
-              <div className="relative h-full w-full rounded-xl overflow-hidden bg-[radial-gradient(circle_at_top,hsl(var(--primary)/0.22),transparent_55%)]">
-                <div className="pointer-events-none absolute inset-0">
+              <div
+                ref={visualRef}
+                className="relative h-full w-full rounded-xl overflow-hidden bg-[radial-gradient(circle_at_top,hsl(var(--primary)/0.22),transparent_55%)]"
+                onPointerMove={handlePointerMove}
+                onPointerLeave={() => setPointerPosition(null)}
+              >
+                <div className="absolute inset-0">
                   {floatingLogos.map((item, index) => (
                     <div
                       key={`${item.name}-${index}`}
-                      className={`absolute rounded-full border px-4 py-2 text-sm font-semibold backdrop-blur-sm ${item.className}`}
-                      style={item.style}
+                      className={`absolute rounded-full border px-3 py-1.5 text-xs font-semibold backdrop-blur-sm shadow-lg transition-[translate] duration-200 ease-out ${[
+                        "text-sky-700 dark:text-sky-300 bg-white/85 dark:bg-sky-500/20 border-sky-500/55 dark:border-sky-300/40 animate-bubble-drift",
+                        "text-cyan-700 dark:text-cyan-300 bg-white/85 dark:bg-cyan-500/20 border-cyan-500/55 dark:border-cyan-300/40 animate-bubble-drift",
+                        "text-slate-800 dark:text-slate-100 bg-white/90 dark:bg-slate-500/20 border-slate-600/55 dark:border-slate-200/40 animate-bubble-drift",
+                        "text-emerald-700 dark:text-emerald-300 bg-white/85 dark:bg-emerald-500/20 border-emerald-500/55 dark:border-emerald-300/40 animate-bubble-drift",
+                        "text-blue-700 dark:text-blue-300 bg-white/85 dark:bg-blue-500/20 border-blue-500/55 dark:border-blue-300/40 animate-bubble-drift",
+                        "text-orange-700 dark:text-orange-300 bg-white/85 dark:bg-orange-500/20 border-orange-500/55 dark:border-orange-300/40 animate-bubble-drift",
+                      ][index % 6]}`}
+                      style={getBubbleStyle(item)}
                     >
                       <span className="flex items-center gap-2">
                         {item.logo}
@@ -170,7 +238,7 @@ export function About() {
                 </div>
                 <div className="relative z-10 flex h-full items-center justify-center text-center p-8">
                   <div>
-                    <div className="text-8xl md:text-9xl font-bold gradient-text opacity-95">3+</div>
+                    <div className="text-8xl md:text-9xl font-bold gradient-text opacity-95">4+</div>
                     <div className="text-foreground/90 font-semibold tracking-wide">Years Experience</div>
                   </div>
                 </div>
@@ -182,10 +250,18 @@ export function About() {
 
           {/* Content Side */}
           <div>
-            <p className="text-muted-foreground text-lg leading-relaxed">
-              {settings?.about_text || 
-                "I'm a passionate full-stack developer with over 3 years of experience building web applications. I specialize in React, Node.js, and cloud technologies. When I'm not coding, you'll find me exploring new technologies, contributing to open source, or sharing knowledge with the developer community."}
-            </p>
+            {settings?.about_text ? (
+              <p className="text-muted-foreground text-lg leading-relaxed">{settings.about_text}</p>
+            ) : (
+              <div className="space-y-4 text-muted-foreground text-lg leading-relaxed">
+                <p>
+                  I'm a Full-Stack Web Developer with 4+ years of experience building modern, responsive, and user-focused web applications. I specialize in React, TypeScript, and modern web technologies, turning ideas into scalable digital experiences.
+                </p>
+                <p>
+                  From crafting intuitive frontends and developing robust backend APIs to integrating databases, authentication, and third-party services, I enjoy building complete solutions that combine great design with reliable performance.
+                </p>
+              </div>
+            )}
 
             {/* Highlights Grid */}
             <div className="mt-8 grid grid-cols-2 gap-4">

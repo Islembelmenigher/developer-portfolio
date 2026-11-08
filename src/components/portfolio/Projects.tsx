@@ -71,7 +71,6 @@ export function Projects() {
   const displayProjects = projects?.length ? projects : defaultProjects;
   
   const featuredProjects = displayProjects.filter((p) => p.featured);
-  const otherProjects = displayProjects.filter((p) => !p.featured);
 
   return (
     <section id="projects" className="section-padding relative bg-secondary/20">
@@ -166,57 +165,20 @@ export function Projects() {
           ))}
         </div>
 
-        {/* Other Projects Grid */}
-        {otherProjects.length > 0 && (
-          <>
-            <h3 className="text-xl font-semibold text-center mb-8">Other Noteworthy Projects</h3>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {otherProjects.map((project) => (
-                <div
-                  key={project.id}
-                  className="flex flex-col rounded-2xl border border-primary/25 bg-gradient-to-b from-primary/10 via-card/85 to-card/70 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-primary/45 hover:shadow-[0_15px_40px_-20px_hsl(var(--primary)/0.75)]"
-                >
-                  <div className="flex justify-between items-start mb-4">
-                    <Folder className="w-10 h-10 text-primary drop-shadow-[0_0_12px_hsl(var(--primary)/0.5)]" />
-                    <div className="flex gap-3">
-                      {project.github_url && (
-                        <a
-                          href={project.github_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary/70 hover:text-primary transition-colors"
-                          aria-label="View source code"
-                        >
-                          <Github size={20} />
-                        </a>
-                      )}
-                      {project.live_url && (
-                        <a
-                          href={project.live_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary/70 hover:text-primary transition-colors"
-                          aria-label="View live site"
-                        >
-                          <ExternalLink size={20} />
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                  <h4 className="text-lg font-semibold mb-2">{project.title}</h4>
-                  <p className="text-muted-foreground text-sm flex-grow">{project.description}</p>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {project.tech_stack.slice(0, 4).map((tech) => (
-                      <span key={tech} className="text-xs text-foreground/80 font-mono">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </>
-        )}
+        <div className="text-center">
+          <h3 className="text-xl font-semibold mb-8">
+            Check My GitHub for other interesting projects
+          </h3>
+          <a
+            href="https://github.com/Islembelmenigher"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Visit my GitHub profile"
+            className="mx-auto flex aspect-square w-full max-w-56 items-center justify-center rounded-2xl border border-primary/25 bg-gradient-to-b from-primary/10 via-card/85 to-card/70 text-primary transition-all duration-300 hover:-translate-y-1 hover:border-primary/45 hover:shadow-[0_15px_40px_-20px_hsl(var(--primary)/0.75)]"
+          >
+            <Github className="h-28 w-28" aria-hidden="true" />
+          </a>
+        </div>
       </div>
     </section>
   );
