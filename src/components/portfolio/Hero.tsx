@@ -21,7 +21,7 @@ export function Hero() {
         }}
       />
 
-      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Main Heading */}
         <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight animate-fade-up opacity-0" style={{ animationDelay: "0.1s" }}>
           Hi, I&apos;m Islem Belmenigher
